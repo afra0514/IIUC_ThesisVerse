@@ -2,7 +2,7 @@
 node_modules/
 */node_modules/
 
-# Environment Variables 
+# Environment Variables git add .gitignore
 .env
 .env.local
 .env.development.local
