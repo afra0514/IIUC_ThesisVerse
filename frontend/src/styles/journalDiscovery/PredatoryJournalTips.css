@@ -1,0 +1,32 @@
+.predatory-tips-banner {
+  @apply w-full rounded-xl bg-amber-50/60 border border-amber-200/80 p-5 sm:p-6 flex items-start gap-4 transition-all;
+}
+
+.tips-icon-wrapper {
+  @apply p-2 rounded-lg bg-amber-100 border border-amber-200 shrink-0 hidden sm:flex items-center justify-center;
+}
+
+.tips-content-wrapper {
+  @apply flex flex-col w-full;
+}
+
+.tips-main-heading {
+  @apply text-sm font-bold text-amber-950 mb-3 flex items-center gap-2;
+}
+
+.tips-two-columns {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2;
+}
+
+.tips-column {
+  @apply flex flex-col gap-1.5;
+}
+
+.tips-text {
+  @apply text-xs text-amber-900/80 leading-relaxed pl-3 relative;
+}
+
+.tips-text::before {
+  content: "•";
+  @apply absolute left-0 text-amber-500 font-bold;
+}

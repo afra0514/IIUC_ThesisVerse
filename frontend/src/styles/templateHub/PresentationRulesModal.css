@@ -1,0 +1,67 @@
+.rules-modal-backdrop {
+  @apply fixed inset-0 z-[100] bg-slate-900/60 flex items-center justify-center p-4;
+}
+
+.rules-modal-box {
+  @apply w-full max-w-xl bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden;
+}
+
+.rules-modal-header {
+  @apply flex items-center justify-between gap-3 p-5 sm:p-6 border-b border-slate-100 bg-slate-50/60;
+}
+
+.rules-header-info {
+  @apply flex items-center gap-3;
+}
+
+.rules-header-icon {
+  @apply w-10 h-10 rounded-lg flex items-center justify-center bg-orange-50 border border-slate-100 shrink-0;
+}
+
+.rules-modal-title {
+  @apply text-base font-bold text-[#0F172A];
+}
+
+.rules-modal-subtitle {
+  @apply text-xs text-slate-500 mt-0.5;
+}
+
+.rules-close-btn {
+  @apply p-1.5 rounded-full hover:bg-slate-200/70 transition-colors border-0 bg-transparent cursor-pointer;
+}
+
+.rules-modal-body {
+  @apply p-5 sm:p-6 max-h-[75vh] overflow-y-auto flex flex-col gap-5;
+}
+
+.rules-limits-grid {
+  @apply grid grid-cols-2 sm:grid-cols-4 gap-2;
+}
+
+.rules-limit-item {
+  @apply flex flex-col items-center text-center gap-0.5 p-3 rounded-xl bg-slate-50 border border-slate-100;
+}
+
+.rules-limit-value {
+  @apply text-sm font-bold text-[#0F172A];
+}
+
+.rules-limit-label {
+  @apply text-[11px] text-slate-500;
+}
+
+.rules-group-title {
+  @apply text-xs font-bold uppercase tracking-wider text-slate-400 mb-2;
+}
+
+.rules-list {
+  @apply flex flex-col gap-2 list-none p-0 m-0;
+}
+
+.rules-item {
+  @apply flex items-start gap-3 text-sm text-slate-700 leading-relaxed;
+}
+
+.rules-number {
+  @apply w-5 h-5 mt-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold flex items-center justify-center shrink-0;
+}
