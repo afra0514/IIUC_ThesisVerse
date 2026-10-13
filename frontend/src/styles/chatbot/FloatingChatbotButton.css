@@ -1,0 +1,11 @@
+.floating-chatbot-root {
+  @apply fixed bottom-6 right-6 z-50 flex flex-col items-end;
+}
+
+.floating-bot-trigger-btn {
+  @apply relative w-14 h-14 rounded-full bg-[#0F172A] hover:bg-slate-800 border-2 border-white flex items-center justify-center shadow-2xl transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer;
+}
+
+.bot-sparkle-pill-badge {
+  @apply absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#059669] border-2 border-white flex items-center justify-center shadow-sm pointer-events-none animate-pulse;
+}

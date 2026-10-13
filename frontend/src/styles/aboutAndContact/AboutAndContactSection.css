@@ -1,0 +1,15 @@
+.about-contact-section {
+  @apply w-full py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] border-t border-slate-200/80;
+}
+
+.about-contact-container {
+  @apply max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start;
+}
+
+.about-column-wrapper {
+  @apply lg:col-span-7 flex flex-col;
+}
+
+.contact-column-wrapper {
+  @apply lg:col-span-5 w-full;
+}

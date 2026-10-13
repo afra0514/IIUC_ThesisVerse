@@ -1,0 +1,115 @@
+.detail-modal-backdrop {
+  @apply fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in-0 duration-150;
+}
+
+.detail-modal-box {
+  @apply w-full max-w-xl bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150;
+}
+
+.detail-modal-header {
+  @apply flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50/60;
+}
+
+.modal-header-profile {
+  @apply flex items-center gap-4;
+}
+
+.modal-avatar {
+  @apply w-14 h-14 rounded-xl object-cover border border-slate-200 bg-white;
+}
+
+.modal-faculty-name {
+  @apply text-base font-bold text-[#0F172A];
+}
+
+.modal-faculty-subtitle {
+  @apply text-xs text-slate-500 mt-0.5;
+}
+
+.modal-close-btn {
+  @apply p-1.5 rounded-full hover:bg-slate-200/70 text-slate-500 transition-colors border-0 bg-transparent cursor-pointer;
+}
+
+.detail-modal-body {
+  @apply p-6 max-h-[75vh] overflow-y-auto flex flex-col gap-5;
+}
+
+.modal-section-title {
+  @apply text-xs font-bold uppercase tracking-wider text-slate-400 mb-2;
+}
+
+.modal-bio-text {
+  @apply text-xs text-slate-600 leading-relaxed;
+}
+
+.modal-tags-wrapper {
+  @apply flex flex-wrap gap-1.5;
+}
+
+.modal-domain-tag {
+  @apply px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-medium border border-slate-200;
+}
+
+.metrics-box {
+  @apply grid grid-cols-2 gap-3;
+}
+
+.metric-item {
+  @apply flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100;
+}
+
+.metric-val {
+  @apply text-base font-bold text-[#0F172A];
+}
+
+.metric-lbl {
+  @apply text-xs text-slate-500 font-normal;
+}
+
+.contact-buttons-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-2.5;
+}
+
+.contact-btn {
+  @apply flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-semibold text-decoration-none transition-colors border;
+}
+
+.email-btn {
+  @apply bg-[#0F172A] text-white border-[#0F172A] hover:bg-slate-800;
+}
+
+.whatsapp-btn {
+  @apply bg-emerald-600 text-white border-emerald-600 hover:bg-emerald-700;
+}
+
+.scholar-btn {
+  @apply bg-white text-slate-700 border-slate-200 hover:bg-slate-50;
+}
+
+.rg-btn {
+  @apply bg-white text-slate-700 border-slate-200 hover:bg-slate-50;
+}
+
+.modal-avatar-placeholder {
+  @apply flex items-center justify-center text-slate-400 bg-slate-100;
+}
+
+.request-section-box {
+  @apply flex flex-col gap-2 p-4 rounded-xl bg-emerald-50/60 border border-emerald-100;
+}
+
+.request-section-text {
+  @apply text-xs text-slate-600 leading-relaxed;
+}
+
+.send-request-btn {
+  @apply w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-[#059669] hover:bg-emerald-700 text-white text-xs font-semibold transition-colors border-0 cursor-pointer;
+}
+
+.send-request-btn:disabled {
+  @apply bg-slate-300 hover:bg-slate-300 cursor-not-allowed;
+}
+
+.request-status-row {
+  @apply flex items-center gap-2 flex-wrap;
+}

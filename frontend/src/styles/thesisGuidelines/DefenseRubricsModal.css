@@ -1,0 +1,43 @@
+.rubrics-modal-backdrop {
+  @apply fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in-0 duration-150;
+}
+
+.rubrics-modal-box {
+  @apply w-full max-w-2xl bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150;
+}
+
+.rubrics-modal-header {
+  @apply flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50/50;
+}
+
+.rubrics-modal-title {
+  @apply text-lg font-bold text-[#0F172A];
+}
+
+.rubrics-modal-subtitle {
+  @apply text-xs text-slate-500 mt-0.5;
+}
+
+.rubrics-modal-close {
+  @apply p-1.5 rounded-full hover:bg-slate-200/70 text-slate-500 transition-colors border-0 bg-transparent cursor-pointer;
+}
+
+.rubrics-modal-body {
+  @apply p-6 max-h-[75vh] overflow-y-auto flex flex-col gap-4;
+}
+
+.rubric-stage-card {
+  @apply p-4 rounded-xl bg-slate-50 border border-slate-200/80;
+}
+
+.rubric-stage-title {
+  @apply text-sm font-bold text-[#0F172A] mb-3 pb-2 border-b border-slate-200;
+}
+
+.rubric-stage-list {
+  @apply space-y-2;
+}
+
+.rubric-stage-item {
+  @apply flex items-start gap-2.5 text-xs text-slate-700;
+}

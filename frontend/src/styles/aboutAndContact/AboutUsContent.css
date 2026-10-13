@@ -1,0 +1,35 @@
+.about-us-wrapper {
+  @apply flex flex-col;
+}
+
+.about-feature-tag {
+  @apply text-xs font-bold tracking-wider text-emerald-600 uppercase mb-2 block;
+}
+
+.about-main-heading {
+  @apply text-2xl sm:text-3xl font-serif font-bold text-[#0F172A] tracking-tight mb-4 leading-snug;
+}
+
+.about-description {
+  @apply text-xs sm:text-sm text-slate-600 font-normal leading-relaxed mb-8;
+}
+
+.about-pillars-grid {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
+}
+
+.about-pillar-card {
+  @apply p-4 sm:p-5 rounded-xl bg-white border border-slate-200/90 shadow-2xs flex flex-col justify-start;
+}
+
+.about-pillar-icon-box {
+  @apply w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-3 text-emerald-600 shrink-0;
+}
+
+.about-pillar-title {
+  @apply text-sm font-bold text-[#0F172A] mb-1.5;
+}
+
+.about-pillar-desc {
+  @apply text-xs text-slate-500 leading-relaxed font-normal;
+}
