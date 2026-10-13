@@ -1,0 +1,67 @@
+.profile-modal-backdrop {
+  @apply fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in;
+}
+
+.profile-modal-box {
+  @apply w-full max-w-2xl bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in;
+}
+
+.profile-modal-header {
+  @apply flex items-center justify-between p-5 border-b border-slate-100 bg-slate-50/60;
+}
+
+.profile-header-main {
+  @apply flex items-center gap-3.5 min-w-0;
+}
+
+.profile-avatar-circle {
+  @apply w-14 h-14 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center shrink-0;
+}
+
+.profile-modal-title {
+  @apply text-base font-bold text-[#0F172A];
+}
+
+.profile-modal-subtitle {
+  @apply text-xs text-slate-500 mt-0.5 truncate;
+}
+
+.profile-close-btn {
+  @apply p-1.5 rounded-full hover:bg-slate-200/70 text-slate-500 transition-colors border-0 bg-transparent cursor-pointer shrink-0;
+}
+
+.profile-modal-body {
+  @apply p-5 max-h-[78vh] overflow-y-auto flex flex-col gap-5;
+}
+
+.profile-section {
+  @apply flex flex-col gap-3;
+}
+
+.profile-section-title {
+  @apply text-xs font-bold uppercase tracking-wider text-slate-400;
+}
+
+.profile-grid-two {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-3;
+}
+
+.profile-span-two {
+  @apply sm:col-span-2;
+}
+
+.profile-success-text {
+  @apply text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2;
+}
+
+.profile-actions {
+  @apply flex items-center justify-end gap-2.5;
+}
+
+.profile-cancel-btn {
+  @apply px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer;
+}
+
+.profile-save-btn {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[#059669] hover:bg-emerald-700 text-white text-xs font-semibold transition-colors border-0 cursor-pointer;
+}

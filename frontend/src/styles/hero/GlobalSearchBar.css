@@ -1,0 +1,19 @@
+.global-search-form {
+  @apply w-full max-w-2xl mx-auto mb-5;
+}
+
+.search-input-wrapper {
+  @apply relative flex items-center w-full bg-white rounded-full border border-slate-300 shadow-md p-1.5 focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 transition-all;
+}
+
+.search-icon {
+  @apply w-5 h-5 text-slate-400 ml-3.5 shrink-0;
+}
+
+.search-input-field {
+  @apply w-full bg-transparent border-0 px-3 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0;
+}
+
+.search-submit-btn {
+  @apply px-6 py-2.5 rounded-full bg-[#0F172A] hover:bg-slate-800 text-white text-sm font-medium transition-all duration-150 shrink-0 cursor-pointer shadow-sm;
+}

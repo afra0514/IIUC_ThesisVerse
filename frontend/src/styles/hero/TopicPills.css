@@ -1,0 +1,7 @@
+.topic-pills-container {
+  @apply flex flex-wrap items-center justify-center gap-2 max-w-2xl mb-12;
+}
+
+.topic-pill-btn {
+  @apply px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-700 shadow-2xs hover:border-emerald-500 hover:text-emerald-700 hover:bg-emerald-50/50 transition-all duration-150 cursor-pointer;
+}

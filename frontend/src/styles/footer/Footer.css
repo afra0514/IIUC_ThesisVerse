@@ -1,0 +1,70 @@
+.footer-root {
+  @apply w-full bg-[#0F172A] text-white pt-14 pb-8 border-t border-slate-800;
+}
+
+.footer-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col;
+}
+
+.footer-main-grid {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 border-b border-slate-800/80;
+}
+
+/* Brand Column */
+.footer-brand-column {
+  @apply lg:col-span-5 flex flex-col;
+}
+
+.footer-logo-link {
+  @apply flex items-center gap-2.5 text-decoration-none mb-3;
+}
+
+.footer-logo-circle {
+  @apply w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center shadow-xs;
+}
+
+.footer-brand-text {
+  @apply text-base font-bold tracking-tight;
+}
+
+.footer-brand-prefix {
+  @apply text-white;
+}
+
+.footer-brand-suffix {
+  @apply text-[#059669];
+}
+
+.footer-brand-desc {
+  @apply text-xs text-slate-400 font-normal leading-relaxed max-w-sm;
+}
+
+/* Links Column */
+.footer-links-column {
+  @apply lg:col-span-7 flex flex-col;
+}
+
+.footer-column-heading {
+  @apply text-xs font-bold uppercase tracking-wider text-slate-300 mb-4;
+}
+
+.footer-links-two-cols {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3;
+}
+
+.footer-links-list {
+  @apply flex flex-col gap-2.5 list-none p-0 m-0;
+}
+
+.footer-link-item {
+  @apply text-xs text-slate-400 hover:text-emerald-400 transition-colors duration-150 text-decoration-none font-normal;
+}
+
+/* Bottom Bar */
+.footer-bottom-bar {
+  @apply pt-6 flex flex-col sm:flex-row items-center justify-between text-center sm:text-left text-[11px] text-slate-500 font-normal;
+}
+
+.footer-copyright-text {
+  @apply w-full text-center;
+}

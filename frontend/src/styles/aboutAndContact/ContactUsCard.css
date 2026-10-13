@@ -1,0 +1,39 @@
+.contact-dark-card {
+  @apply w-full rounded-2xl bg-[#0F172A] p-6 sm:p-8 text-white shadow-xl border border-slate-800 flex flex-col;
+}
+
+.contact-sub-tag {
+  @apply text-xs font-bold tracking-wider text-emerald-400 uppercase mb-1 block;
+}
+
+.contact-main-title {
+  @apply text-lg sm:text-xl font-bold text-white mb-6 pb-4 border-b border-slate-800;
+}
+
+.contact-info-list {
+  @apply flex flex-col gap-4;
+}
+
+.contact-info-row {
+  @apply flex items-start gap-3.5;
+}
+
+.contact-icon-circle {
+  @apply w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 mt-0.5;
+}
+
+.contact-text-group {
+  @apply flex flex-col min-w-0;
+}
+
+.contact-label {
+  @apply text-[11px] font-medium text-slate-400 uppercase tracking-wider;
+}
+
+.contact-val-link {
+  @apply text-xs sm:text-sm text-slate-200 hover:text-emerald-400 transition-colors text-decoration-none mt-0.5 truncate;
+}
+
+.contact-val-text {
+  @apply text-xs sm:text-sm text-slate-200 mt-0.5 leading-snug;
+}

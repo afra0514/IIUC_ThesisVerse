@@ -1,0 +1,66 @@
+.ai-banner-section {
+  @apply w-full py-16 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-200/80;
+}
+
+.ai-banner-container {
+  @apply max-w-7xl mx-auto;
+}
+
+.ai-banner-header-wrapper {
+  @apply flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-6 border-b border-slate-100;
+}
+
+.ai-banner-feature-tag {
+  @apply text-xs font-bold tracking-wider text-emerald-600 uppercase mb-1 block;
+}
+
+.ai-banner-main-title {
+  @apply text-2xl sm:text-3xl font-serif font-bold text-[#0F172A] tracking-tight;
+}
+
+.ai-banner-subtitle {
+  @apply text-sm text-slate-600 font-normal max-w-2xl mt-1 leading-relaxed;
+}
+
+.preview-lock-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium shrink-0 self-start md:self-auto;
+}
+
+/* Dark Main Banner Card */
+.ai-assistant-card {
+  @apply w-full rounded-2xl bg-[#0F172A] p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl border border-slate-800;
+}
+
+.ai-card-left-content {
+  @apply flex items-center gap-4 sm:gap-5;
+}
+
+/* Bot Avatar and Top-right Sparkles badge */
+.ai-avatar-badge-wrapper {
+  @apply relative shrink-0;
+}
+
+.ai-bot-circle {
+  @apply w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center shadow-md;
+}
+
+.ai-sparkle-badge {
+  @apply absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#059669] border-2 border-[#0F172A] flex items-center justify-center shadow-xs;
+}
+
+.ai-card-text-block {
+  @apply flex flex-col;
+}
+
+.ai-assistant-title {
+  @apply text-base sm:text-lg font-bold text-white tracking-tight;
+}
+
+.ai-sample-prompts {
+  @apply text-xs sm:text-sm text-slate-400 font-normal mt-1 leading-relaxed;
+}
+
+/* White CTA Button */
+.ai-start-convo-btn {
+  @apply inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-[#0F172A] text-xs sm:text-sm font-semibold transition-all duration-150 shadow-md shrink-0 border-none cursor-pointer self-stretch md:self-auto;
+}

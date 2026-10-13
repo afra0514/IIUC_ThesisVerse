@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #F8FAFC;
+  color: #0F172A;
+}
+
+/* Save / bookmark toggle used on supervisor, journal and template cards (logged-in only) */
+.bookmark-toggle-btn {
+  @apply ml-auto shrink-0 p-1.5 rounded-md border border-slate-200 bg-white text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 hover:border-emerald-200 transition-colors cursor-pointer;
+}
+
+.bookmark-toggle-btn.active {
+  @apply text-emerald-600 bg-emerald-50 border-emerald-200;
+}
+
+
+/* ---------- Shared form helpers ---------- */
+.form-error-text {
+  @apply text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2;
+}
+
+.form-hint-text {
+  @apply text-[11px] text-slate-500 leading-snug;
+}
+
+.form-textarea-field {
+  @apply w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 resize-y focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all;
+}
+
+.form-input-field:disabled {
+  @apply text-slate-500 cursor-not-allowed;
+}
+
+/* ---------- Request status chips (shared by student & supervisor views) ---------- */
+.request-status-chip {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border shrink-0;
+}
+
+.request-status-chip.pending {
+  @apply bg-amber-50 text-amber-700 border-amber-200;
+}
+
+.request-status-chip.accepted {
+  @apply bg-emerald-50 text-emerald-700 border-emerald-200;
+}
+
+.request-status-chip.rejected {
+  @apply bg-red-50 text-red-700 border-red-200;
+}

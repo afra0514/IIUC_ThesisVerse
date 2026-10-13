@@ -1,0 +1,43 @@
+.journal-card {
+  @apply bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 flex flex-col justify-between cursor-pointer;
+}
+
+.journal-top-row {
+  @apply flex items-center gap-3.5 mb-3;
+}
+
+.journal-logo-box {
+  @apply w-11 h-11 rounded-lg flex items-center justify-center shrink-0 shadow-xs text-white font-bold text-xs tracking-tight;
+}
+
+.journal-short-code {
+  @apply select-none;
+}
+
+.journal-title-tier {
+  @apply flex flex-col min-w-0;
+}
+
+.journal-name {
+  @apply text-sm font-bold text-[#0F172A] leading-snug;
+}
+
+.journal-tier-badge {
+  @apply inline-block text-[11px] font-semibold mt-1 px-2 py-0.5 rounded-full border w-fit;
+}
+
+.badge-emerald {
+  @apply bg-emerald-50 text-emerald-700 border-emerald-200/70;
+}
+
+.badge-slate {
+  @apply bg-slate-100 text-slate-600 border-slate-200;
+}
+
+.journal-description {
+  @apply text-xs text-slate-600 font-normal leading-relaxed mb-5 line-clamp-3;
+}
+
+.open-search-btn {
+  @apply w-full py-2.5 px-4 rounded-lg bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-200 transition-colors duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-2xs;
+}

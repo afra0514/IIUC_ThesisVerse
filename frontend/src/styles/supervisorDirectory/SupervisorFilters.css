@@ -1,0 +1,43 @@
+.filters-wrapper {
+  @apply mb-8 flex flex-col gap-4;
+}
+
+.search-dept-row {
+  @apply flex flex-col sm:flex-row items-center gap-3 w-full;
+}
+
+.filter-search-box {
+  @apply relative flex items-center w-full sm:flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3.5 py-2.5 focus-within:bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 transition-all;
+}
+
+.filter-search-icon {
+  @apply w-4 h-4 text-slate-400 mr-2.5 shrink-0;
+}
+
+.filter-search-input {
+  @apply w-full bg-transparent border-0 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-0;
+}
+
+.filter-dept-box {
+  @apply relative w-full sm:w-56 bg-slate-50 border border-slate-200 rounded-lg focus-within:bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-100 transition-all;
+}
+
+.filter-dept-select {
+  @apply w-full bg-transparent border-0 px-3.5 py-2.5 pr-8 text-xs sm:text-sm text-slate-700 focus:outline-none focus:ring-0 cursor-pointer appearance-none;
+}
+
+.dept-dropdown-icon {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none;
+}
+
+.filter-domains-row {
+  @apply flex flex-wrap items-center gap-2;
+}
+
+.domain-filter-btn {
+  @apply px-3 py-1 rounded-full text-xs font-medium bg-white border border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer;
+}
+
+.domain-filter-btn.active {
+  @apply bg-[#0F172A] text-white border-[#0F172A] shadow-xs;
+}
