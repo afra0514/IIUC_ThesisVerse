@@ -1,4 +1,4 @@
-# Sumaiya Akter Emo (C223215): Contribution
+# Sumaiya Akter Emo (C223215): 
 
 Team 3, IIUC ThesisVerse, CSE-4708 Field Work
 
