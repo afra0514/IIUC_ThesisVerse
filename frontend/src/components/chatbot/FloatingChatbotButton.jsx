@@ -5,8 +5,7 @@ import { useChat } from '../../context/ChatContext';
 import '../../styles/chatbot/FloatingChatbotButton.css';
 
 export default function FloatingChatbotButton({ onOpenAuthModal, isLoggedIn }) {
-  const { isChatOpen, toggleChat, closeChat } = useChat();
-  const isOpen = isChatOpen && isLoggedIn;
+  const { isChatOpen: isOpen, toggleChat, closeChat } = useChat();
 
   const handleToggle = () => {
     if (!isLoggedIn) {
@@ -18,16 +17,18 @@ export default function FloatingChatbotButton({ onOpenAuthModal, isLoggedIn }) {
 
   return (
     <div className="floating-chatbot-root">
-      {isOpen && <ChatWindow onClose={closeChat} />}
+      
+       {isOpen && isLoggedIn && (
+        <ChatWindow onClose={closeChat} />
+      )}
 
-      <button
+       <button
         type="button"
         className="floating-bot-trigger-btn"
         onClick={handleToggle}
-        aria-label={isOpen ? 'Close the assistant' : 'Open the assistant'}
-        aria-expanded={isOpen}
+        aria-label="Open AI Research Assistant"
       >
-        {isOpen ? (
+        {isOpen && isLoggedIn ? (
           <X className="w-6 h-6 text-white" />
         ) : (
           <>
@@ -38,6 +39,7 @@ export default function FloatingChatbotButton({ onOpenAuthModal, isLoggedIn }) {
           </>
         )}
       </button>
+
     </div>
   );
 }

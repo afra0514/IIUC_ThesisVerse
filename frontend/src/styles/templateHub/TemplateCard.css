@@ -1,5 +1,5 @@
 .template-card {
-  @apply bg-white rounded-xl border border-slate-200/90 p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 flex flex-col;
+  @apply bg-white rounded-xl border border-slate-200/90 p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 flex flex-col justify-between;
 }
 
 .template-card-top {
@@ -15,7 +15,7 @@
 }
 
 .template-content-area {
-  @apply flex-1 mb-4;
+  @apply mb-4;
 }
 
 .template-title {
@@ -44,7 +44,4 @@
 
 .template-overleaf-btn {
   @apply w-full py-2 px-4 rounded-lg bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-200 transition-colors duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-2xs;
-}
-.meta-missing {
-  @apply text-amber-700 font-semibold;
 }

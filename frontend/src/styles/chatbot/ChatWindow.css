@@ -57,10 +57,3 @@
 .chat-send-btn {
   @apply p-2.5 rounded-xl bg-[#0F172A] hover:bg-slate-800 disabled:opacity-40 disabled:hover:bg-[#0F172A] transition-colors border-0 cursor-pointer shrink-0;
 }
-.chat-typing-row {
-  @apply flex items-center gap-1 ml-10 px-3 py-2 w-fit rounded-2xl bg-white border border-slate-200/90;
-}
-
-.chat-typing-dot {
-  @apply w-1.5 h-1.5 rounded-full bg-slate-400 animate-pulse;
-}

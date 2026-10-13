@@ -3,8 +3,8 @@ export const journalsData = [
     id: 'ieee',
     name: 'IEEE Xplore',
     shortCode: 'IEEE',
-    bgColor: 'bg-[#00629B]',
-    tierBadge: 'IEEE journals & conferences',
+    color: '#00629B',
+    tierBadge: 'Scopus · Q1–Q2',
     tierColor: 'emerald',
     description: 'Premier library for electrical engineering, computer science and electronics conference and journal papers.',
     searchUrl: 'https://ieeexplore.ieee.org/search/searchresult.jsp?newsearch=true&queryText='
@@ -13,8 +13,8 @@ export const journalsData = [
     id: 'sciencedirect',
     name: 'ScienceDirect',
     shortCode: 'SD',
-    bgColor: 'bg-[#FF6C00]',
-    tierBadge: 'Elsevier journals',
+    color: '#FF6C00',
+    tierBadge: 'Scopus · Q1–Q3',
     tierColor: 'emerald',
     description: "Elsevier's full-text database covering engineering, applied sciences and medicine.",
     searchUrl: 'https://www.sciencedirect.com/search?qs='
@@ -23,8 +23,8 @@ export const journalsData = [
     id: 'springer',
     name: 'SpringerLink',
     shortCode: 'SL',
-    bgColor: 'bg-[#D97706]',
-    tierBadge: 'Springer journals & LNCS',
+    color: '#D97706',
+    tierBadge: 'Scopus · Q1–Q4',
     tierColor: 'emerald',
     description: 'Journals, books and Lecture Notes in Computer Science (LNCS) proceedings.',
     searchUrl: 'https://link.springer.com/search?query='
@@ -33,17 +33,17 @@ export const journalsData = [
     id: 'arxiv',
     name: 'arXiv',
     shortCode: 'arX',
-    bgColor: 'bg-[#B91C1C]',
+    color: '#B91C1C',
     tierBadge: 'Preprint · Not peer-reviewed',
     tierColor: 'slate',
     description: 'Open-access preprints in CS, maths and physics — great for the latest ideas, verify before citing.',
-    searchUrl: 'https://arxiv.org/search/?searchtype=all&query='
+    searchUrl: 'https://arxiv.org/search/?query='
   },
   {
     id: 'scopus',
     name: 'Scopus',
     shortCode: 'Sc',
-    bgColor: 'bg-[#007377]',
+    color: '#007377',
     tierBadge: 'Citation index',
     tierColor: 'emerald',
     description: 'Abstract and citation database to check journal quartiles, CiteScore and author metrics.',
@@ -53,9 +53,9 @@ export const journalsData = [
     id: 'scholar',
     name: 'Google Scholar',
     shortCode: 'GS',
-    bgColor: 'bg-[#2563EB]',
-    tierBadge: 'Search engine · Check sources',
-    tierColor: 'slate',
+    color: '#2563EB',
+    tierBadge: 'Aggregator · Mixed',
+    tierColor: 'emerald',
     description: 'Broad scholarly search across disciplines with citation tracking and alerts.',
     searchUrl: 'https://scholar.google.com/scholar?q='
   }
@@ -71,4 +71,4 @@ export const predatoryJournalTipsData = {
     "Beware of 'guaranteed acceptance' or review times under 7 days.",
     'Sort by citations and filter to the last 3–5 years for recent work.'
   ]
-};
+};

@@ -11,74 +11,121 @@ import Footer from '../components/footer/Footer';
 import FloatingChatbotButton from '../components/chatbot/FloatingChatbotButton';
 import AuthModal from '../components/auth/AuthModal';
 import StudentDashboard from '../components/dashboard/StudentDashboard';
+import SupervisorDashboard from '../components/dashboard/SupervisorDashboard';
+import ProfileSettingsModal from '../components/profile/ProfileSettingsModal';
 
 import { useAuth } from '../context/AuthContext';
 import { useChat } from '../context/ChatContext';
 import '../styles/pages/Home.css';
 
-const savedKeyFor = (user) => `iiuc_thesis_saved_${(user && user.studentId) || 'guest'}`;
-
-function loadSavedItems(key) {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(key) || '[]');
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (err) {
-    return [];
-  }
-}
+const SAVED_KEY = 'iiuc_thesis_saved';
 
 export default function Home() {
-  const { isLoggedIn, user, login, isAuthModalOpen, openAuthModal, closeAuthModal } = useAuth();
-  const { openChat } = useChat();
+  let authContext = {};
+  let chatContext = {};
 
-  const savedKey = savedKeyFor(user);
-  const [saved, setSaved] = useState(() => ({ key: savedKey, items: loadSavedItems(savedKey) }));
-
-  if (saved.key !== savedKey) {
-    setSaved({ key: savedKey, items: loadSavedItems(savedKey) });
+  try {
+    authContext = useAuth();
+  } catch (err) {
+    authContext = {};
   }
-  const savedItems = saved.key === savedKey ? saved.items : [];
+
+  try {
+    chatContext = useChat();
+  } catch (err) {
+    chatContext = {};
+  }
+
+  const isLoggedIn = authContext.isLoggedIn || false;
+  const user = authContext.user || null;
+  const isStudent = user?.role === 'student';
+  const userId = user?.id || null;
+  const openChat = chatContext.openChat || (() => {});
+
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+  const handleOpenAuth = () => {
+    setIsAuthOpen(true);
+  };
+
+  const handleCloseAuth = () => {
+    setIsAuthOpen(false);
+  };
+
+  const handleLoginSuccess = () => {
+    setIsAuthOpen(false);
+  };
+
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn) setIsSettingsOpen(false);
+  }, [isLoggedIn]);
+ 
+  const [savedItems, setSavedItems] = useState([]);
+  const [savedOwner, setSavedOwner] = useState(null);
+
+  useEffect(() => {
+    if (!userId) {
+      setSavedItems([]);
+      setSavedOwner(null);
+      return;
+    }
     try {
-      localStorage.setItem(saved.key, JSON.stringify(saved.items));
+      const raw = localStorage.getItem(`${SAVED_KEY}_${userId}`);
+      const parsed = raw ? JSON.parse(raw) : [];
+      setSavedItems(Array.isArray(parsed) ? parsed : []);
+    } catch (err) {
+      setSavedItems([]);
+    }
+    setSavedOwner(userId);
+  }, [userId]);
+
+  useEffect(() => {
+    if (!userId || savedOwner !== userId) return;
+    try {
+      localStorage.setItem(`${SAVED_KEY}_${userId}`, JSON.stringify(savedItems));
     } catch (err) {
     }
-  }, [saved, isLoggedIn]);
+  }, [savedItems, savedOwner, userId]);
 
   const savedKeys = savedItems.map((i) => i.key);
 
   const handleToggleSave = (item) => {
-    setSaved((prev) => ({
-      key: prev.key,
-      items: prev.items.some((i) => i.key === item.key)
-        ? prev.items.filter((i) => i.key !== item.key)
-        : [...prev.items, item]
-    }));
+    setSavedItems((prev) =>
+      prev.some((i) => i.key === item.key)
+        ? prev.filter((i) => i.key !== item.key)
+        : [...prev, item]
+    );
   };
 
   const [heroSearch, setHeroSearch] = useState({ text: '', nonce: 0 });
 
   const handleHeroSearch = (query) => {
     if (!isLoggedIn) {
-      openAuthModal();
+      handleOpenAuth();
       return;
     }
     setHeroSearch({ text: typeof query === 'string' ? query.trim() : '', nonce: Date.now() });
-    document.getElementById('supervisors')?.scrollIntoView({ behavior: 'smooth' });
+    const supervisorSection = document.getElementById('supervisors');
+    if (supervisorSection) {
+      supervisorSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
     <div className="home-page-root">
-      <Navbar onOpenAuthModal={openAuthModal} />
+      
+      <Navbar onOpenAuthModal={handleOpenAuth} onOpenSettings={() => setIsSettingsOpen(true)} />
+
       <Hero
         onSearch={handleHeroSearch}
         onSelectTopic={handleHeroSearch}
-        onOpenAuthModal={openAuthModal}
+        onOpenAuthModal={handleOpenAuth}
         isLoggedIn={isLoggedIn}
       />
-      {isLoggedIn && (
+
+      {isLoggedIn && isStudent && (
         <StudentDashboard
           user={user}
           savedItems={savedItems}
@@ -86,46 +133,61 @@ export default function Home() {
         />
       )}
 
+      {isLoggedIn && !isStudent && <SupervisorDashboard user={user} />}
+
       <SupervisorSection
-        onOpenAuthModal={openAuthModal}
+        onOpenAuthModal={handleOpenAuth}
         isLoggedIn={isLoggedIn}
         savedKeys={savedKeys}
-        onToggleSave={handleToggleSave}
+        onToggleSave={isStudent ? handleToggleSave : undefined}
         externalSearch={heroSearch}
       />
+
       <GuidelinesSection
-        onOpenAuthModal={openAuthModal}
+        onOpenAuthModal={handleOpenAuth}
         isLoggedIn={isLoggedIn}
       />
+
       <JournalSection
-        onOpenAuthModal={openAuthModal}
+        onOpenAuthModal={handleOpenAuth}
         isLoggedIn={isLoggedIn}
         savedKeys={savedKeys}
-        onToggleSave={handleToggleSave}
+        onToggleSave={isStudent ? handleToggleSave : undefined}
         searchKeyword={heroSearch.text}
       />
+
       <TemplateSection
-        onOpenAuthModal={openAuthModal}
+        onOpenAuthModal={handleOpenAuth}
         isLoggedIn={isLoggedIn}
         savedKeys={savedKeys}
-        onToggleSave={handleToggleSave}
+        onToggleSave={isStudent ? handleToggleSave : undefined}
       />
+
       <AiAssistantBanner
         onOpenChatbot={openChat}
-        onOpenAuthModal={openAuthModal}
+        onOpenAuthModal={handleOpenAuth}
         isLoggedIn={isLoggedIn}
       />
+
       <AboutAndContactSection />
-      <Footer onOpenAuthModal={openAuthModal} isLoggedIn={isLoggedIn} />
+
+      <Footer onOpenAuthModal={handleOpenAuth} isLoggedIn={isLoggedIn} />
+
       <FloatingChatbotButton
-        onOpenAuthModal={openAuthModal}
+        onOpenAuthModal={handleOpenAuth}
         isLoggedIn={isLoggedIn}
       />
+
+      {isLoggedIn && isSettingsOpen && (
+        <ProfileSettingsModal onClose={() => setIsSettingsOpen(false)} />
+      )}
+
       <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={closeAuthModal}
-        onLoginSuccess={login}
+        isOpen={isAuthOpen}
+        onClose={handleCloseAuth}
+        onLoginSuccess={handleLoginSuccess}
       />
+
     </div>
   );
 }

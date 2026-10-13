@@ -7,16 +7,20 @@ export default function JournalCard({ journal, onClick, isLoggedIn, isSaved, onT
 
   return (
     <div className="journal-card" onClick={onClick}>
+      
+      {/* Top Row: Brand Box & Tier Badge */}
       <div className="journal-top-row">
-        <div className={`journal-logo-box ${journal.bgColor}`}>
+        <div className="journal-logo-box" style={{ backgroundColor: journal.color || '#0F172A' }}>
           <span className="journal-short-code">{journal.shortCode}</span>
         </div>
+
         <div className="journal-title-tier">
           <h3 className="journal-name">{journal.name}</h3>
           <span className={`journal-tier-badge ${isSlateBadge ? 'badge-slate' : 'badge-emerald'}`}>
             {journal.tierBadge}
           </span>
         </div>
+
         {isLoggedIn && typeof onToggleSave === 'function' && (
           <button
             type="button"
@@ -33,13 +37,18 @@ export default function JournalCard({ journal, onClick, isLoggedIn, isSaved, onT
           </button>
         )}
       </div>
+
+      {/* Description */}
       <p className="journal-description">
         {journal.description}
       </p>
+
+      {/* Action Button */}
       <button type="button" className="open-search-btn">
         {isLoggedIn ? <ExternalLink className="w-3.5 h-3.5 text-slate-500" /> : <Lock className="w-3.5 h-3.5 text-slate-500" />}
         <span>Open Journal Search</span>
       </button>
+
     </div>
   );
 }

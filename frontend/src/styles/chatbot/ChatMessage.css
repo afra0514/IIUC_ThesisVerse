@@ -34,6 +34,7 @@
   @apply font-normal;
 }
 
+/* Embedded Supervisor Card */
 .embedded-recommendation-card {
   @apply mt-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-2;
 }
@@ -58,17 +59,7 @@
   @apply inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 transition-colors text-decoration-none pt-1.5 border-t border-slate-200/70;
 }
 
+/* Embedded Journal Link */
 .embedded-journal-link {
   @apply mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium text-decoration-none hover:bg-blue-100 transition-colors;
-}
-.chat-bullet-list {
-  @apply mt-2 pl-4 list-disc flex flex-col gap-1 text-slate-700;
-}
-
-.chat-link-list {
-  @apply mt-2.5 flex flex-col items-start gap-1.5;
-}
-
-.chat-link-list .embedded-journal-link {
-  @apply mt-0;
 }
