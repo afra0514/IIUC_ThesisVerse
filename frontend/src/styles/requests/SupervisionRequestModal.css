@@ -1,0 +1,95 @@
+.req-modal-backdrop {
+  @apply fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in;
+}
+
+.req-modal-box {
+  @apply w-full max-w-2xl bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden animate-in;
+}
+
+.req-modal-header {
+  @apply flex items-center justify-between p-5 border-b border-slate-100 bg-slate-50/60;
+}
+
+.req-header-profile {
+  @apply flex items-center gap-3 min-w-0;
+}
+
+.req-header-avatar {
+  @apply w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center shrink-0;
+}
+
+.req-modal-title {
+  @apply text-base font-bold text-[#0F172A];
+}
+
+.req-modal-subtitle {
+  @apply text-xs text-slate-500 mt-0.5;
+}
+
+.req-close-btn {
+  @apply p-1.5 rounded-full hover:bg-slate-200/70 text-slate-500 transition-colors border-0 bg-transparent cursor-pointer shrink-0;
+}
+
+.req-modal-body {
+  @apply p-5 max-h-[78vh] overflow-y-auto flex flex-col gap-5;
+}
+
+.req-note-box {
+  @apply flex items-start gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800 leading-relaxed;
+}
+
+.req-section {
+  @apply flex flex-col gap-3;
+}
+
+.req-section-head {
+  @apply flex items-center justify-between gap-2 flex-wrap;
+}
+
+.req-section-title {
+  @apply text-xs font-bold uppercase tracking-wider text-slate-400;
+}
+
+.req-grid-two {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-3;
+}
+
+.req-member-row {
+  @apply grid grid-cols-1 sm:grid-cols-[1.2fr_1fr_1.2fr_auto] gap-2 items-center;
+}
+
+.req-remove-member-btn {
+  @apply p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 bg-transparent border-0 cursor-pointer justify-self-start;
+}
+
+.req-add-member-btn {
+  @apply self-start inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dashed border-slate-300 bg-white text-xs font-semibold text-slate-600 hover:border-emerald-600 hover:text-emerald-700 transition-colors cursor-pointer;
+}
+
+.req-add-member-btn:disabled {
+  @apply opacity-50 cursor-not-allowed hover:border-slate-300 hover:text-slate-600;
+}
+
+.req-actions {
+  @apply flex items-center justify-end gap-2.5;
+}
+
+.req-cancel-btn {
+  @apply px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-600 hover:bg-slate-50 cursor-pointer;
+}
+
+.req-submit-btn {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-[#059669] hover:bg-emerald-700 text-white text-xs font-semibold transition-colors border-0 cursor-pointer;
+}
+
+.req-success {
+  @apply flex flex-col items-center text-center gap-3 px-8 py-10;
+}
+
+.req-success-title {
+  @apply text-lg font-bold text-[#0F172A];
+}
+
+.req-success-text {
+  @apply text-xs text-slate-600 leading-relaxed max-w-md;
+}

@@ -1,3 +1,4 @@
+
 export const guidelinesData = [
   {
     id: 'topic-selection',
@@ -168,3 +169,4 @@ export const guidelinesData = [
     }
   }
 ]
+

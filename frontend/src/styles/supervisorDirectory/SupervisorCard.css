@@ -1,0 +1,55 @@
+.supervisor-card {
+  @apply bg-white rounded-xl border border-slate-200/90 p-5 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 flex flex-col justify-between cursor-pointer;
+}
+
+.card-top-row {
+  @apply flex items-start gap-3.5 mb-3;
+}
+
+.avatar-wrapper {
+  @apply shrink-0;
+}
+
+.faculty-avatar {
+  @apply w-14 h-14 rounded-lg object-cover bg-slate-100 border border-slate-200;
+}
+
+.faculty-meta {
+  @apply flex flex-col min-w-0;
+}
+
+.faculty-name {
+  @apply text-sm font-bold text-[#0F172A] leading-snug truncate;
+}
+
+.faculty-designation {
+  @apply text-xs text-slate-600 font-medium mt-0.5;
+}
+
+.faculty-dept {
+  @apply text-xs text-slate-400 font-normal;
+}
+
+.papers-badge-wrapper {
+  @apply mb-3.5;
+}
+
+.papers-count-badge {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200/70;
+}
+
+.faculty-tags-list {
+  @apply flex flex-wrap gap-1.5 mb-5;
+}
+
+.faculty-domain-pill {
+  @apply px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-normal border border-slate-200/60;
+}
+
+.view-contact-btn {
+  @apply w-full py-2.5 px-4 rounded-lg bg-[#0F172A] hover:bg-slate-800 text-white text-xs font-semibold transition-colors duration-150 flex items-center justify-center gap-2 shadow-xs border-none cursor-pointer;
+}
+
+.faculty-avatar-placeholder {
+  @apply flex items-center justify-center text-slate-400;
+}

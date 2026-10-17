@@ -1,0 +1,46 @@
+.hero-section {
+  @apply relative w-full pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#F8FAFC];
+}
+
+/* Background Image: অপাসিটি বাড়ানো হয়েছে যাতে গেট ও গাছপালা স্পষ্ট দেখা যায় */
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  opacity: 0.65; /* আগে ০.২৫ ছিল, এখন ০.৬৫ করায় ছবি অনেক বেশি স্পষ্ট হবে */
+  background-image: 
+    radial-gradient(circle at center, rgba(248, 250, 252, 0.2) 0%, rgba(248, 250, 252, 0.65) 65%, #F8FAFC 95%),
+    url('/images/iiuc.png');
+}
+
+.hero-container {
+  @apply relative z-10 max-w-5xl mx-auto flex flex-col items-center text-center;
+}
+
+/* IIUC Emblem Badges */
+.hero-badge-wrapper {
+  @apply flex items-center justify-center gap-3 mb-6;
+}
+
+.hero-emblem-badge {
+  @apply w-12 h-12 rounded-full bg-white shadow-md border border-slate-200/80 flex items-center justify-center p-2 transition-transform duration-200 hover:scale-105;
+}
+
+.emblem-icon {
+  @apply w-6 h-6;
+}
+
+/* Typography */
+.hero-main-title {
+  @apply text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#0F172A] tracking-tight leading-tight sm:leading-snug max-w-3xl mb-4;
+  /* টেক্সট আরও পরিষ্কার পড়ার জন্য হালকা শ্যাডো */
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.hero-subtitle {
+  @apply text-xs sm:text-sm md:text-base text-slate-700 font-medium max-w-2xl leading-relaxed mb-8;
+}

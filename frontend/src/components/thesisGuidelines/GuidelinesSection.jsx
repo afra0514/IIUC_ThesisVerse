@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Lock } from 'lucide-react';
 import { useContent } from '../../context/ContentContext';
@@ -62,4 +63,5 @@ export default function GuidelinesSection({ onOpenAuthModal, isLoggedIn }) {
       )}
     </section>
   );
+
 }

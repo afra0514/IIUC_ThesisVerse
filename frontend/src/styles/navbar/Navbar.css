@@ -1,0 +1,105 @@
+.navbar-container {
+  @apply sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-sm transition-all;
+}
+
+.navbar-content {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4;
+}
+
+/* Logo & Branding */
+.navbar-logo-link {
+  @apply flex items-center gap-2.5 shrink-0 text-decoration-none;
+}
+
+.navbar-logo-icon {
+  @apply w-9 h-9 rounded-full bg-[#0F172A] flex items-center justify-center shadow-sm;
+}
+
+.navbar-brand-text {
+  @apply text-lg font-bold tracking-tight;
+}
+
+.brand-prefix {
+  @apply text-[#0F172A];
+}
+
+.brand-suffix {
+  @apply text-[#059669];
+}
+
+/* Center Links */
+.navbar-links {
+  @apply hidden md:flex items-center gap-6 lg:gap-8;
+}
+
+.nav-item {
+  @apply text-sm font-medium text-slate-700 hover:text-emerald-600 transition-colors duration-150 flex items-center gap-1 cursor-pointer;
+}
+
+.dropdown-wrapper {
+  @apply relative py-2;
+}
+
+.dropdown-btn {
+  @apply bg-transparent border-0 p-0 focus:outline-none;
+}
+
+/* Right Side Actions */
+.navbar-right-actions {
+  @apply flex items-center gap-3 sm:gap-4 shrink-0;
+}
+
+.search-pill-container {
+  @apply hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50/80 hover:bg-slate-100 hover:border-slate-300 transition-colors cursor-pointer text-slate-500;
+}
+
+.search-placeholder {
+  @apply text-xs font-normal;
+}
+
+.search-shortcut {
+  @apply flex items-center gap-0.5 ml-2;
+}
+
+.search-shortcut kbd {
+  @apply text-[10px] font-semibold text-slate-400 bg-white border border-slate-200 rounded px-1 py-0.5 shadow-2xs;
+}
+
+.icon-action-btn {
+  @apply relative p-2 rounded-full hover:bg-slate-100 text-slate-600 transition-colors border-0 bg-transparent cursor-pointer;
+}
+
+.notification-dot {
+  @apply absolute top-1.5 right-1.5 w-2 h-2 bg-emerald-500 rounded-full ring-2 ring-white;
+}
+
+.login-register-btn {
+  @apply px-4 py-2 rounded-lg bg-[#0F172A] hover:bg-slate-800 text-white text-xs sm:text-sm font-medium transition-all duration-150 shadow-sm cursor-pointer whitespace-nowrap;
+}
+
+/* Logged-in user chip & logout */
+.navbar-user-chip {
+  @apply flex items-center gap-2;
+}
+
+.navbar-user-avatar {
+  @apply w-8 h-8 rounded-full bg-[#0F172A] text-white text-xs font-bold flex items-center justify-center;
+}
+
+.navbar-user-name {
+  @apply hidden sm:inline text-sm font-medium text-slate-700;
+}
+
+.logout-icon-btn {
+  @apply p-2 rounded-full hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors border-0 bg-transparent cursor-pointer;
+}
+
+
+/* Notification count badge + clickable profile chip + settings button */
+.notification-badge {
+  @apply absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center ring-2 ring-white;
+}
+
+button.navbar-user-chip {
+  @apply bg-transparent border-0 cursor-pointer rounded-full pr-2 hover:bg-slate-100 transition-colors;
+}

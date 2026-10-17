@@ -1,3 +1,4 @@
+
 /**
  * Temporary "backend" built on localStorage.
  *
@@ -126,3 +127,4 @@ export const clearSession = () => {
     // ignore
   }
 };
+

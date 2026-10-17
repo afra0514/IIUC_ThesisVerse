@@ -1,0 +1,60 @@
+.features-dropdown-menu {
+  @apply absolute top-full left-1/2 -translate-x-1/2 mt-1 w-80 sm:w-96 bg-white rounded-xl border border-slate-200 shadow-xl p-3 z-50 animate-in fade-in-0 zoom-in-95;
+}
+
+.dropdown-header {
+  @apply flex items-center justify-between pb-2 mb-2 border-b border-slate-100 px-2;
+}
+
+.dropdown-header-title {
+  @apply text-xs font-semibold uppercase tracking-wider text-slate-400;
+}
+
+.dropdown-header-badge {
+  @apply flex items-center gap-1 text-[11px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200;
+}
+
+.dropdown-items-grid {
+  @apply flex flex-col gap-1;
+}
+
+.dropdown-item-card {
+  @apply flex items-start gap-3 p-2.5 rounded-lg hover:bg-slate-50 transition-colors text-decoration-none cursor-pointer;
+}
+
+.dropdown-item-icon-box {
+  @apply w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0 transition-colors;
+}
+
+.dropdown-item-card:hover .dropdown-item-icon-box {
+  @apply bg-emerald-100;
+}
+
+.dropdown-item-info {
+  @apply flex flex-col;
+}
+
+.dropdown-item-title-row {
+  @apply flex items-center gap-1.5;
+}
+
+.dropdown-item-title {
+  @apply text-sm font-semibold text-slate-800 transition-colors;
+}
+
+.dropdown-item-card:hover .dropdown-item-title {
+  @apply text-emerald-700;
+}
+
+.dropdown-item-desc {
+  @apply text-xs text-slate-500 leading-snug mt-0.5 line-clamp-1;
+}
+
+/* Logged-in numbered list */
+.dropdown-item-numbered {
+  @apply items-center;
+}
+
+.dropdown-item-number {
+  @apply w-5 h-5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] font-bold flex items-center justify-center shrink-0;
+}

@@ -1,0 +1,31 @@
+.guidelines-section {
+  @apply w-full py-16 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC];
+}
+
+.guidelines-container {
+  @apply max-w-7xl mx-auto;
+}
+
+.guidelines-header-wrapper {
+  @apply flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-6 border-b border-slate-200/80;
+}
+
+.guidelines-feature-tag {
+  @apply text-xs font-bold tracking-wider text-emerald-600 uppercase mb-1 block;
+}
+
+.guidelines-main-title {
+  @apply text-2xl sm:text-3xl font-serif font-bold text-[#0F172A] tracking-tight;
+}
+
+.guidelines-subtitle {
+  @apply text-sm text-slate-600 font-normal max-w-2xl mt-1 leading-relaxed;
+}
+
+.preview-lock-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium shrink-0 self-start md:self-auto;
+}
+
+.guidelines-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}

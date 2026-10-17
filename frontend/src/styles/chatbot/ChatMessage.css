@@ -1,0 +1,65 @@
+.chat-message-row {
+  @apply flex items-start gap-2.5;
+}
+
+.chat-message-row.user-row {
+  @apply flex-row-reverse;
+}
+
+.chat-avatar-icon {
+  @apply w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-2xs;
+}
+
+.bot-avatar {
+  @apply bg-[#0F172A];
+}
+
+.user-avatar {
+  @apply bg-emerald-600;
+}
+
+.chat-bubble-box {
+  @apply max-w-[80%] p-3 rounded-2xl text-xs leading-relaxed;
+}
+
+.bot-bubble {
+  @apply bg-white border border-slate-200/90 text-slate-800 shadow-2xs rounded-tl-xs;
+}
+
+.user-bubble {
+  @apply bg-[#0F172A] text-white rounded-tr-xs;
+}
+
+.chat-bubble-text {
+  @apply font-normal;
+}
+
+/* Embedded Supervisor Card */
+.embedded-recommendation-card {
+  @apply mt-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col gap-2;
+}
+
+.rec-info {
+  @apply flex flex-col;
+}
+
+.rec-name {
+  @apply text-xs font-bold text-[#0F172A];
+}
+
+.rec-dept {
+  @apply text-[11px] text-slate-500;
+}
+
+.rec-papers-badge {
+  @apply text-[10px] font-medium text-emerald-700 mt-1;
+}
+
+.rec-view-link {
+  @apply inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 transition-colors text-decoration-none pt-1.5 border-t border-slate-200/70;
+}
+
+/* Embedded Journal Link */
+.embedded-journal-link {
+  @apply mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium text-decoration-none hover:bg-blue-100 transition-colors;
+}
