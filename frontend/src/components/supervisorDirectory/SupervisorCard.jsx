@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Lock, FileText, ArrowRight, Bookmark, UserRound } from 'lucide-react';
 import '../../styles/supervisorDirectory/SupervisorCard.css';
@@ -78,4 +79,5 @@ export default function SupervisorCard({ supervisor, onClick, isLoggedIn, isSave
 
     </div>
   );
+
 }

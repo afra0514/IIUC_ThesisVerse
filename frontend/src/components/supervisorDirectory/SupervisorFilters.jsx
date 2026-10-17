@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Search, ChevronDown } from 'lucide-react';
 import '../../styles/supervisorDirectory/SupervisorFilters.css';
@@ -71,4 +72,5 @@ export default function SupervisorFilters({
 
     </div>
   );
+
 }

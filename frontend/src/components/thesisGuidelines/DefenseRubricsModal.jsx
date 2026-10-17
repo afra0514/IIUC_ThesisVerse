@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { X, CheckCircle } from 'lucide-react';
 import '../../styles/thesisGuidelines/DefenseRubricsModal.css';
@@ -71,4 +72,5 @@ export default function DefenseRubricsModal({ onClose, title, subtitle, stages: 
       </div>
     </div>
   );
+
 }

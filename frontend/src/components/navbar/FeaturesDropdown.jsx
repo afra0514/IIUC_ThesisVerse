@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Users, BookOpen, Layers, Download, Bot, Lock } from 'lucide-react';
 import '../../styles/navbar/FeaturesDropdown.css';
@@ -98,3 +99,4 @@ export default function FeaturesDropdown({ onSelectFeature, isLoggedIn }) {
     </div>
   );
 }
+

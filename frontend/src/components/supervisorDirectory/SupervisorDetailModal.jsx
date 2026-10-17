@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X, Mail, Phone, ExternalLink, FileText, BookOpen, Copy, Check, UserRound, Send } from 'lucide-react';
 import '../../styles/supervisorDirectory/SupervisorDetailModal.css';
@@ -187,3 +188,5 @@ export default function SupervisorDetailModal({ supervisor, onClose, canRequest,
     </div>
   );
 }
+
+

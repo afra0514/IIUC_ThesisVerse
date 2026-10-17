@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X, Send, Plus, Trash2, CheckCircle2, UserRound, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -335,3 +336,4 @@ export default function SupervisionRequestModal({ supervisor, onClose }) {
     </div>
   );
 }
+

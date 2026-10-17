@@ -1,3 +1,4 @@
+
 import React from 'react';
 import '../../styles/hero/StatsCounter.css';
 
@@ -20,4 +21,5 @@ export default function StatsCounter() {
       </div>
     </div>
   );
+
 }
