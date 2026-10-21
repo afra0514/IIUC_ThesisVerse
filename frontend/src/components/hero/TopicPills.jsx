@@ -1,3 +1,4 @@
+
 import React from 'react';
 import '../../styles/hero/TopicPills.css';
 
@@ -25,4 +26,5 @@ export default function TopicPills({ onSelectTopic }) {
       ))}
     </div>
   );
+
 }

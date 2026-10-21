@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { GraduationCap, ChevronDown, Search, Bell, LogOut, Settings } from 'lucide-react';
 import FeaturesDropdown from './FeaturesDropdown';

@@ -1,3 +1,4 @@
+
 export const supervisorsData = [
   {
     id: 1,
@@ -89,4 +90,5 @@ export const supervisorsData = [
     linkedin: 'https://linkedin.com',
     bio: 'Research interests include distributed consensus algorithms, decentralized finance (DeFi), and semantic text analysis.'
   }
+
 ];

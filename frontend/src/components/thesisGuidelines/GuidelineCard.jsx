@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Lock, ArrowRight } from 'lucide-react';
 import { GUIDELINE_ICONS } from '../../utils/icons';
@@ -32,4 +33,5 @@ export default function GuidelineCard({ item, onClick, isLoggedIn }) {
       </button>
     </div>
   );
+
 }

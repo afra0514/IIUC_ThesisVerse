@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Lock } from 'lucide-react';
 import SupervisorFilters from './SupervisorFilters';
@@ -147,4 +148,5 @@ export default function SupervisorSection({ onOpenAuthModal, isLoggedIn, savedKe
       )}
     </section>
   );
+
 }

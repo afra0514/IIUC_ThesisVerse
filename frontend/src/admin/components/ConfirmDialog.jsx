@@ -1,3 +1,4 @@
+
 import React from 'react';
 import AdminModal from './AdminModal';
 
@@ -25,3 +26,4 @@ export default function ConfirmDialog({ title, message, confirmLabel = 'Delete',
     </AdminModal>
   );
 }
+
