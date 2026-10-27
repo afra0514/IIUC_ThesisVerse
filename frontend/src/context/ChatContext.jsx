@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import api from '../services/api';
 
 const ChatContext = createContext(null);
 
@@ -11,12 +12,13 @@ export function ChatProvider({ children }) {
       text: 'Assalamu Alaikum! I am your IIUC ThesisVerse AI Assistant. How can I help with your thesis supervisor search, journal papers, or guidelines today?'
     }
   ]);
+  const [isTyping, setIsTyping] = useState(false);
 
   const openChat = () => setIsChatOpen(true);
   const closeChat = () => setIsChatOpen(false);
   const toggleChat = () => setIsChatOpen((prev) => !prev);
 
-  const sendMessage = (text) => {
+  const sendMessage = async (text) => {
     if (!text || !text.trim()) return;
 
     const userMessage = {
@@ -26,8 +28,23 @@ export function ChatProvider({ children }) {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    setIsTyping(true);
 
+    try {
+      const res = await api.sendChatMessage(text.trim());
+      setIsTyping(false);
+
+      if (res.ok && res.response) {
+        setMessages((prev) => [...prev, res.response]);
+        return;
+      }
+    } catch (err) {
+      console.warn('Chat query error:', err.message);
+    }
+
+    // Fallback if backend is slow/offline
     setTimeout(() => {
+      setIsTyping(false);
       const lower = text.toLowerCase();
       let responseObj = {
         id: Date.now() + 1,
@@ -76,7 +93,7 @@ export function ChatProvider({ children }) {
       }
 
       setMessages((prev) => [...prev, responseObj]);
-    }, 700);
+    }, 400);
   };
 
   const clearChat = () => {
@@ -98,7 +115,8 @@ export function ChatProvider({ children }) {
         toggleChat,
         messages,
         sendMessage,
-        clearChat
+        clearChat,
+        isTyping
       }}
     >
       {children}

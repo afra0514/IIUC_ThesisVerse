@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { supervisorsData } from '../data/supervisorsData';
 import { useAuth } from './AuthContext';
+import api from '../services/api';
 import {
   DB_EVENT,
   getUsers,
@@ -9,16 +10,53 @@ import {
   getNotifications,
   saveNotifications,
   getSupervisorProfiles,
+  saveSupervisorProfiles,
   makeId
 } from '../services/mockDb';
 
 const AppDataContext = createContext(null);
 
-export const MAX_GROUP_MEMBERS = 3; 
+export const MAX_GROUP_MEMBERS = 3;
 
 export function AppDataProvider({ children }) {
   const { user } = useAuth();
   const [version, setVersion] = useState(0);
+  const [remoteSupervisors, setRemoteSupervisors] = useState(null);
+
+  // Sync data from backend MongoDB Atlas
+  const refreshBackendData = useCallback(async () => {
+    try {
+      const supRes = await api.getSupervisors();
+      if (supRes.ok && Array.isArray(supRes.supervisors)) {
+        setRemoteSupervisors(supRes.supervisors);
+        // Also update local profile cache
+        const pMap = { ...getSupervisorProfiles() };
+        supRes.supervisors.forEach((s) => {
+          pMap[s.id] = { ...pMap[s.id], ...s };
+        });
+        saveSupervisorProfiles(pMap);
+      }
+
+      if (user) {
+        const [reqRes, notifRes] = await Promise.all([
+          api.getRequests(),
+          api.getNotifications()
+        ]);
+        if (reqRes.ok && Array.isArray(reqRes.requests)) {
+          saveRequests(reqRes.requests);
+        }
+        if (notifRes.ok && Array.isArray(notifRes.notifications)) {
+          saveNotifications(notifRes.notifications);
+        }
+      }
+    } catch (err) {
+      console.warn('[AppData] Error refreshing from MongoDB Atlas:', err.message);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    refreshBackendData();
+  }, [refreshBackendData]);
 
   useEffect(() => {
     const bump = () => setVersion((v) => v + 1);
@@ -41,6 +79,10 @@ export function AppDataProvider({ children }) {
   );
 
   const supervisors = useMemo(() => {
+    if (remoteSupervisors && remoteSupervisors.length > 0) {
+      return remoteSupervisors;
+    }
+
     const { requests, profiles, users } = snapshot;
     const claimed = new Set(
       users.filter((u) => u.role === 'supervisor').map((u) => String(u.supervisorId))
@@ -61,33 +103,34 @@ export function AppDataProvider({ children }) {
         openSlotsLeft: Math.max(0, openSlots - acceptedCount)
       };
     });
-  }, [snapshot]);
+  }, [remoteSupervisors, snapshot]);
 
   const myRequests = useMemo(() => {
     if (!user || user.role !== 'student') return [];
+    const userId = user.id || user.customId;
     return snapshot.requests
-      .filter((r) => r.studentUserId === user.id)
-      .sort((a, b) => b.createdAt - a.createdAt);
+      .filter((r) => r.studentUserId === userId || (user._id && r.studentUserId === user._id.toString()))
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   }, [snapshot, user]);
 
   const incomingRequests = useMemo(() => {
     if (!user || user.role !== 'supervisor') return [];
     return snapshot.requests
       .filter((r) => String(r.supervisorId) === String(user.supervisorId))
-      .sort((a, b) => b.createdAt - a.createdAt);
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   }, [snapshot, user]);
 
   const recipientKey = user
     ? user.role === 'supervisor'
       ? `s:${user.supervisorId}`
-      : `u:${user.id}`
+      : `u:${user.id || user.customId}`
     : null;
 
   const notifications = useMemo(() => {
     if (!recipientKey) return [];
     return snapshot.notifications
       .filter((n) => n.recipient === recipientKey)
-      .sort((a, b) => b.createdAt - a.createdAt);
+      .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   }, [snapshot, recipientKey]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -103,24 +146,51 @@ export function AppDataProvider({ children }) {
     saveNotifications([item, ...getNotifications()]);
   };
 
-  const markNotificationRead = (id) => {
+  const markNotificationRead = async (id) => {
     saveNotifications(getNotifications().map((n) => (n.id === id ? { ...n, read: true } : n)));
+    await api.markNotificationRead(id);
   };
 
-  const markAllNotificationsRead = () => {
+  const markAllNotificationsRead = async () => {
     if (!recipientKey) return;
     saveNotifications(
       getNotifications().map((n) => (n.recipient === recipientKey ? { ...n, read: true } : n))
     );
+    await api.markAllNotificationsRead();
   };
 
-  const sendRequest = ({ supervisorId, student, topic, description, members, message }) => {
+  const sendRequest = async ({ supervisorId, student, topic, description, members, message }) => {
     if (!user || user.role !== 'student') {
       return { ok: false, error: 'Only students can send supervision requests.' };
     }
     const sup = supervisors.find((s) => String(s.id) === String(supervisorId));
     if (!sup) return { ok: false, error: 'Supervisor not found.' };
 
+    const cleanTopic = (topic || '').trim();
+    if (!cleanTopic) return { ok: false, error: 'Thesis topic is required.' };
+
+    const payload = {
+      supervisorId: sup.id,
+      student,
+      topic: cleanTopic,
+      description,
+      members,
+      message
+    };
+
+    // 1. Send to backend MongoDB Atlas API
+    const res = await api.createRequest(payload);
+    if (res.ok && res.request) {
+      saveRequests([res.request, ...getRequests()]);
+      refreshBackendData();
+      return { ok: true, request: res.request };
+    }
+
+    if (res.error && res.status !== 500) {
+      return { ok: false, error: res.error };
+    }
+
+    // 2. Local fallback if offline
     const all = getRequests();
     const existing = all.find(
       (r) =>
@@ -141,7 +211,7 @@ export function AppDataProvider({ children }) {
       return { ok: false, error: 'This supervisor has no open supervision slots left.' };
     }
 
-    const request = {
+    const localRequest = {
       id: makeId('req'),
       studentUserId: user.id,
       supervisorId: sup.id,
@@ -150,24 +220,24 @@ export function AppDataProvider({ children }) {
       respondedAt: null,
       responseNote: '',
       student,
-      topic,
+      topic: cleanTopic,
       description,
       members,
       message
     };
-    saveRequests([request, ...all]);
+    saveRequests([localRequest, ...all]);
 
     pushNotification(`s:${sup.id}`, {
       type: 'request_received',
       title: 'New supervision request',
-      message: `${student.name} (${student.studentId}) sent a request for “${topic}”.`,
-      requestId: request.id
+      message: `${student.name} (${student.studentId}) sent a request for “${cleanTopic}”.`,
+      requestId: localRequest.id
     });
 
-    return { ok: true, request };
+    return { ok: true, request: localRequest };
   };
 
-  const respondToRequest = (requestId, status, note = '') => {
+  const respondToRequest = async (requestId, status, note = '') => {
     if (!user || user.role !== 'supervisor') {
       return { ok: false, error: 'Only supervisors can respond to requests.' };
     }
@@ -175,25 +245,29 @@ export function AppDataProvider({ children }) {
       return { ok: false, error: 'Invalid status.' };
     }
 
+    // 1. Respond via backend MongoDB Atlas API
+    const res = await api.respondToRequest(requestId, { status, note });
+    if (res.ok) {
+      const all = getRequests();
+      saveRequests(
+        all.map((r) =>
+          r.id === requestId
+            ? { ...r, status, responseNote: note.trim(), respondedAt: Date.now() }
+            : r
+        )
+      );
+      refreshBackendData();
+      return { ok: true };
+    }
+
+    if (res.error && res.status !== 500) {
+      return { ok: false, error: res.error };
+    }
+
+    // 2. Local fallback
     const all = getRequests();
     const req = all.find((r) => r.id === requestId);
     if (!req) return { ok: false, error: 'Request not found.' };
-    if (String(req.supervisorId) !== String(user.supervisorId)) {
-      return { ok: false, error: 'This request was not sent to you.' };
-    }
-    if (req.status !== 'pending') {
-      return { ok: false, error: 'This request has already been answered.' };
-    }
-
-    if (status === 'accepted') {
-      const me = supervisors.find((s) => String(s.id) === String(user.supervisorId));
-      if (me && me.openSlotsLeft <= 0) {
-        return {
-          ok: false,
-          error: 'You have no open slots left. Increase your open slots in Profile Settings first.'
-        };
-      }
-    }
 
     const cleanNote = note.trim();
     saveRequests(
@@ -231,7 +305,8 @@ export function AppDataProvider({ children }) {
         sendRequest,
         respondToRequest,
         markNotificationRead,
-        markAllNotificationsRead
+        markAllNotificationsRead,
+        refreshBackendData
       }}
     >
       {children}

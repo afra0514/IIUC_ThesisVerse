@@ -10,14 +10,14 @@ export default function SettingsPage({ admin, onAdminChange, notify }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     if (newPassword && newPassword !== confirmPassword) {
       setError('New password and confirmation do not match.');
       return;
     }
-    const result = updateAdminAccount(admin.id, { name, email, currentPassword, newPassword });
+    const result = await updateAdminAccount(admin.id, { name, email, currentPassword, newPassword });
     if (!result.ok) {
       setError(result.error);
       return;

@@ -43,7 +43,7 @@ export default function SupervisionRequestModal({ supervisor, onClose }) {
     setMembers(members.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // ignore completely empty member rows
@@ -56,7 +56,7 @@ export default function SupervisionRequestModal({ supervisor, onClose }) {
       return;
     }
 
-    const result = sendRequest({
+    const result = await sendRequest({
       supervisorId: supervisor.id,
       student: {
         name: student.name.trim(),

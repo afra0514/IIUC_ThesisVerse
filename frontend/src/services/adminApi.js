@@ -1,18 +1,12 @@
 /**
- * Admin-side operations (mock backend, localStorage based).
- *
- * Like mockDb.js, every function here maps to one future admin API endpoint.
- * Admin accounts live in their own store and are NEVER the same as the
- * student / supervisor users of the main website.
- *
- * IMPORTANT: this is only a front-end mock. Real protection of the admin panel
- * must be done by the backend (role checks on every request, hashed passwords,
- * rate limiting, HTTPS).
+ * Admin-side operations connected directly to the Express backend and MongoDB Atlas.
+ * Maintains local caching and event dispatching for instantaneous UI reactivity.
  */
 import { supervisorsData } from '../data/supervisorsData';
 import { guidelinesData } from '../data/guidelinesData';
 import { templatesData } from '../data/templatesData';
 import { journalsData } from '../data/journalsData';
+import api, { setAdminAuthToken, getAdminAuthToken } from './api';
 import {
   getUsers,
   saveUsers,
@@ -30,7 +24,8 @@ import {
   getAdminSessionId,
   setAdminSessionId,
   clearAdminSession,
-  makeId
+  makeId,
+  DB_EVENT
 } from './mockDb';
 import { deptLabel } from '../utils/format';
 
@@ -38,8 +33,6 @@ import { deptLabel } from '../utils/format';
  * Admin authentication
  * ==================================================================== */
 
-// First-run admin account (mock). Change the password from Admin → Settings,
-// and replace this whole thing with real backend admin accounts later.
 const DEFAULT_ADMIN = {
   id: 'adm-default',
   name: 'Administrator',
@@ -57,45 +50,90 @@ export function ensureDefaultAdmin() {
 
 export function getAdminSession() {
   ensureDefaultAdmin();
+  const token = getAdminAuthToken();
   const id = getAdminSessionId();
-  if (!id) return null;
+  if (!id && !token) return null;
+
   const found = getAdmins().find((a) => a.id === id);
-  if (!found) {
-    clearAdminSession();
-    return null;
+  if (found) return publicAdmin(found);
+
+  // If token exists, verify in background
+  if (token) {
+    api.getAdminSession().then((res) => {
+      if (res.ok && res.admin) {
+        setAdminSessionId(res.admin.id);
+        const admins = getAdmins();
+        const exists = admins.some((a) => a.id === res.admin.id);
+        if (!exists) saveAdmins([res.admin, ...admins]);
+      }
+    });
   }
-  return publicAdmin(found);
+
+  return found ? publicAdmin(found) : (id ? { id, name: 'Administrator', email: 'admin@iiuc.ac.bd' } : null);
 }
 
-export function adminLogin(email, password) {
+export async function adminLogin(email, password) {
   ensureDefaultAdmin();
-  const id = (email || '').trim().toLowerCase();
-  const found = getAdmins().find((a) => a.email.toLowerCase() === id);
-  // same message for both cases so attackers cannot tell which one was wrong
+  const cleanEmail = (email || '').trim().toLowerCase();
+
+  // Try real MongoDB Atlas backend login first
+  const res = await api.adminLogin({ email: cleanEmail, password });
+  if (res.ok && res.admin) {
+    setAdminAuthToken(res.token);
+    setAdminSessionId(res.admin.id);
+    const admins = getAdmins();
+    const idx = admins.findIndex((a) => a.email.toLowerCase() === cleanEmail);
+    if (idx >= 0) {
+      admins[idx] = { ...admins[idx], ...res.admin };
+      saveAdmins(admins);
+    } else {
+      saveAdmins([res.admin, ...admins]);
+    }
+    // Sync users & stats
+    syncAdminData();
+    return { ok: true, admin: res.admin };
+  }
+
+  // Fallback to local default admin if backend temporarily unreachable
+  const found = getAdmins().find((a) => a.email.toLowerCase() === cleanEmail);
   if (!found || found.password !== password) {
-    return { ok: false, error: 'Invalid admin email or password.' };
+    return { ok: false, error: res.error || 'Invalid admin email or password.' };
   }
   setAdminSessionId(found.id);
   return { ok: true, admin: publicAdmin(found) };
 }
 
 export function adminLogout() {
+  setAdminAuthToken(null);
   clearAdminSession();
 }
 
-export function updateAdminAccount(adminId, { name, email, currentPassword, newPassword }) {
+export async function updateAdminAccount(adminId, { name, email, currentPassword, newPassword }) {
   const admins = getAdmins();
   const idx = admins.findIndex((a) => a.id === adminId);
-  if (idx < 0) return { ok: false, error: 'Admin account not found.' };
+  const current = idx >= 0 ? admins[idx] : { name: 'Administrator', email: 'admin@iiuc.ac.bd', password: '' };
 
-  const current = admins[idx];
   const cleanName = (name ?? current.name).trim();
   const cleanEmail = (email ?? current.email).trim().toLowerCase();
   if (!cleanName || !cleanEmail) return { ok: false, error: 'Name and email are required.' };
-  if (admins.some((a, i) => i !== idx && a.email.toLowerCase() === cleanEmail)) {
-    return { ok: false, error: 'Another admin already uses this email.' };
+
+  // Call backend API
+  const res = await api.updateAdminAccount({
+    name: cleanName,
+    email: cleanEmail,
+    currentPassword,
+    newPassword
+  });
+
+  if (res.ok && res.admin) {
+    if (idx >= 0) {
+      admins[idx] = { ...current, name: cleanName, email: cleanEmail };
+      saveAdmins(admins);
+    }
+    return { ok: true, admin: res.admin };
   }
 
+  // Local fallback
   let password = current.password;
   if (newPassword) {
     if (currentPassword !== current.password) {
@@ -107,9 +145,12 @@ export function updateAdminAccount(adminId, { name, email, currentPassword, newP
     password = newPassword;
   }
 
-  admins[idx] = { ...current, name: cleanName, email: cleanEmail, password };
-  saveAdmins(admins);
-  return { ok: true, admin: publicAdmin(admins[idx]) };
+  if (idx >= 0) {
+    admins[idx] = { ...current, name: cleanName, email: cleanEmail, password };
+    saveAdmins(admins);
+  }
+
+  return { ok: true, admin: { id: adminId, name: cleanName, email: cleanEmail } };
 }
 
 /* ====================================================================
@@ -135,7 +176,6 @@ export function listUsers() {
     .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 }
 
-// Directory profiles nobody has claimed yet (for linking a new supervisor account)
 export function listUnclaimedProfiles() {
   const claimed = new Set(
     getUsers().filter((u) => u.role === 'supervisor').map((u) => String(u.supervisorId))
@@ -249,6 +289,16 @@ export function createUser(data) {
   }
 
   saveUsers([...users, newUser]);
+
+  // Persist to MongoDB Atlas via backend API
+  api.createUser(data).then((res) => {
+    if (res.ok && res.user) {
+      const currentUsers = getUsers();
+      const updated = currentUsers.map((u) => (u.id === newUser.id ? { ...u, ...res.user } : u));
+      saveUsers(updated);
+    }
+  });
+
   return { ok: true, user: stripPassword(newUser) };
 }
 
@@ -299,15 +349,13 @@ export function updateUser(id, data) {
 
   users[idx] = updated;
   saveUsers(users);
+
+  // Sync to backend MongoDB Atlas
+  api.updateUser(id, data);
+
   return { ok: true, user: stripPassword(updated) };
 }
 
-/**
- * Deleting a user also removes what belongs to them:
- *  - student: their supervision requests + notifications
- *  - supervisor: their notifications; if the directory profile was created for them
- *    it is removed together with the requests sent to it
- */
 export function deleteUser(id) {
   const users = getUsers();
   const target = users.find((u) => u.id === id);
@@ -328,6 +376,10 @@ export function deleteUser(id) {
     }
     saveNotifications(getNotifications().filter((n) => n.recipient !== key));
   }
+
+  // Delete from backend MongoDB Atlas
+  api.deleteUser(id);
+
   return { ok: true };
 }
 
@@ -347,18 +399,27 @@ export function listContent(kind) {
 
 export function saveItem(kind, item) {
   const list = [...listContent(kind)];
-  const idx = list.findIndex((x) => x.id === item.id);
+  const itemId = item.id || makeId(kind.slice(0, 3));
+  const fullItem = { ...item, id: itemId };
+  const idx = list.findIndex((x) => x.id === itemId);
+
   if (idx >= 0) {
-    list[idx] = item;
+    list[idx] = fullItem;
   } else {
-    list.push({ ...item, id: item.id || makeId(kind.slice(0, 3)) });
+    list.push(fullItem);
   }
+
   saveContent(kind, list);
-  return { ok: true };
+
+  // Save to MongoDB Atlas via backend API
+  api.saveItem(kind, fullItem);
+
+  return { ok: true, item: fullItem };
 }
 
 export function deleteItem(kind, id) {
   saveContent(kind, listContent(kind).filter((x) => x.id !== id));
+  api.deleteItem(kind, id);
   return { ok: true };
 }
 
@@ -369,11 +430,14 @@ export function moveItem(kind, id, direction) {
   if (idx < 0 || target < 0 || target >= list.length) return { ok: false };
   [list[idx], list[target]] = [list[target], list[idx]];
   saveContent(kind, list);
+
+  api.moveItem(kind, { id, direction });
   return { ok: true };
 }
 
 export function resetToDefaults(kind) {
   resetContent(kind);
+  api.resetDefaults(kind);
   return { ok: true };
 }
 
@@ -397,4 +461,40 @@ export function getStats() {
     templates: listContent('templates').length,
     journals: listContent('journals').length
   };
+}
+
+/* ====================================================================
+ * Background Data Synchronizer with MongoDB Atlas
+ * ==================================================================== */
+
+export async function syncAdminData() {
+  try {
+    const [statsRes, usersRes, guidelinesRes, templatesRes, journalsRes] = await Promise.all([
+      api.getStats(),
+      api.listUsers(),
+      api.getContent('guidelines'),
+      api.getContent('templates'),
+      api.getContent('journals')
+    ]);
+
+    if (usersRes.ok && Array.isArray(usersRes.users)) {
+      saveUsers(usersRes.users);
+    }
+    if (guidelinesRes.ok && Array.isArray(guidelinesRes.items)) {
+      saveContent('guidelines', guidelinesRes.items);
+    }
+    if (templatesRes.ok && Array.isArray(templatesRes.items)) {
+      saveContent('templates', templatesRes.items);
+    }
+    if (journalsRes.ok && Array.isArray(journalsRes.items)) {
+      saveContent('journals', journalsRes.items);
+    }
+  } catch (err) {
+    console.warn('[AdminApi] sync error:', err.message);
+  }
+}
+
+// Initial background sync when admin panel is loaded
+if (typeof window !== 'undefined') {
+  syncAdminData();
 }

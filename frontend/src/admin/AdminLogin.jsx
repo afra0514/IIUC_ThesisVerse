@@ -18,11 +18,11 @@ export default function AdminLogin({ onLogin }) {
     return () => clearTimeout(t);
   }, [lockLeft]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (lockLeft > 0) return;
 
-    const result = adminLogin(email, password);
+    const result = await adminLogin(email, password);
     if (result.ok) {
       onLogin(result.admin);
       return;

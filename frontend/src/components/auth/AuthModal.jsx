@@ -30,8 +30,9 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
     setError('');
   };
 
-  const handleLogin = (values) => {
-    const result = login({ ...values, role });
+  const handleLogin = async (values) => {
+    setError('');
+    const result = await login({ ...values, role });
     if (!result.ok) {
       setError(result.error);
       return;
@@ -40,8 +41,9 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }) {
     if (onLoginSuccess) onLoginSuccess(result.user);
   };
 
-  const handleRegister = (values) => {
-    const result = register({ ...values, role });
+  const handleRegister = async (values) => {
+    setError('');
+    const result = await register({ ...values, role });
     if (!result.ok) {
       setError(result.error);
       return;

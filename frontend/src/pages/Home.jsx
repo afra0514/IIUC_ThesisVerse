@@ -16,6 +16,7 @@ import ProfileSettingsModal from '../components/profile/ProfileSettingsModal';
 
 import { useAuth } from '../context/AuthContext';
 import { useChat } from '../context/ChatContext';
+import api from '../services/api';
 import '../styles/pages/Home.css';
 
 const SAVED_KEY = 'iiuc_thesis_saved';
@@ -61,7 +62,7 @@ export default function Home() {
   useEffect(() => {
     if (!isLoggedIn) setIsSettingsOpen(false);
   }, [isLoggedIn]);
- 
+
   const [savedItems, setSavedItems] = useState([]);
   const [savedOwner, setSavedOwner] = useState(null);
 
@@ -79,12 +80,20 @@ export default function Home() {
       setSavedItems([]);
     }
     setSavedOwner(userId);
+
+    // Sync from MongoDB Atlas
+    api.getBookmarks().then((res) => {
+      if (res.ok && Array.isArray(res.items) && res.items.length > 0) {
+        setSavedItems(res.items);
+      }
+    });
   }, [userId]);
 
   useEffect(() => {
     if (!userId || savedOwner !== userId) return;
     try {
       localStorage.setItem(`${SAVED_KEY}_${userId}`, JSON.stringify(savedItems));
+      api.saveBookmarks(savedItems);
     } catch (err) {
     }
   }, [savedItems, savedOwner, userId]);
@@ -92,11 +101,13 @@ export default function Home() {
   const savedKeys = savedItems.map((i) => i.key);
 
   const handleToggleSave = (item) => {
-    setSavedItems((prev) =>
-      prev.some((i) => i.key === item.key)
+    setSavedItems((prev) => {
+      const updated = prev.some((i) => i.key === item.key)
         ? prev.filter((i) => i.key !== item.key)
-        : [...prev, item]
-    );
+        : [...prev, item];
+      api.saveBookmarks(updated);
+      return updated;
+    });
   };
 
   const [heroSearch, setHeroSearch] = useState({ text: '', nonce: 0 });

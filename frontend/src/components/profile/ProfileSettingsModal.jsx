@@ -51,13 +51,13 @@ export default function ProfileSettingsModal({ onClose }) {
     setSaved(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     let result;
     if (isSupervisor) {
-      result = updateProfile({
+      result = await updateProfile({
         account: {
           name: form.name,
           email: form.email,
@@ -84,7 +84,7 @@ export default function ProfileSettingsModal({ onClose }) {
         newPassword: form.newPassword
       });
     } else {
-      result = updateProfile({
+      result = await updateProfile({
         account: {
           name: form.name,
           studentId: form.studentId,

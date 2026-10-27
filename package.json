@@ -1,0 +1,25 @@
+{
+  "name": "iiuc-thesis-verse",
+  "version": "1.0.0",
+  "description": "IIUC ThesisVerse - Comprehensive Thesis, Supervision & Research Portal for International Islamic University Chittagong",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "start:backend": "cd backend && npm start",
+    "build:frontend": "cd frontend && npm run build",
+    "build": "cd frontend && npm run build",
+    "install:all": "npm install --prefix backend && npm install --prefix frontend"
+  },
+  "keywords": [
+    "iiuc",
+    "thesis",
+    "research",
+    "mern",
+    "mongodb-atlas",
+    "express",
+    "react",
+    "nodejs"
+  ],
+  "author": "Afra & Contributors",
+  "license": "ISC"
+}

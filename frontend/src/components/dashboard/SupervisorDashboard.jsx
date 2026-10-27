@@ -32,13 +32,13 @@ export default function SupervisorDashboard({ user }) {
 
   const visible = incomingRequests.filter((r) => tab === 'all' || r.status === tab);
 
-  const handleAccept = (id) => {
-    const result = respondToRequest(id, 'accepted');
+  const handleAccept = async (id) => {
+    const result = await respondToRequest(id, 'accepted');
     setActionError(result.ok ? { id: null, message: '' } : { id, message: result.error });
   };
 
-  const handleConfirmReject = (id) => {
-    const result = respondToRequest(id, 'rejected', rejectNote);
+  const handleConfirmReject = async (id) => {
+    const result = await respondToRequest(id, 'rejected', rejectNote);
     if (result.ok) {
       setRejectingId(null);
       setRejectNote('');

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Bot, Send, X, Sparkles } from 'lucide-react';
 import ChatMessage from './ChatMessage';
+import api from '../../services/api';
 import '../../styles/chatbot/ChatWindow.css';
 
 export default function ChatWindow({ onClose }) {
@@ -28,7 +29,7 @@ export default function ChatWindow({ onClose }) {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = (textToSend) => {
+  const handleSend = async (textToSend) => {
     const text = textToSend || inputMessage;
     if (!text.trim()) return;
 
@@ -36,7 +37,17 @@ export default function ChatWindow({ onClose }) {
     setMessages((prev) => [...prev, userMsg]);
     setInputMessage('');
 
-    // Mock AI intelligent response logic
+    try {
+      const res = await api.sendChatMessage(text.trim());
+      if (res.ok && res.response) {
+        setMessages((prev) => [...prev, res.response]);
+        return;
+      }
+    } catch (err) {
+      console.warn('ChatWindow query error:', err);
+    }
+
+    // Fallback response logic
     setTimeout(() => {
       let botResponse = {
         id: Date.now() + 1,
@@ -63,7 +74,7 @@ export default function ChatWindow({ onClose }) {
       }
 
       setMessages((prev) => [...prev, botResponse]);
-    }, 800);
+    }, 500);
   };
 
   return (
