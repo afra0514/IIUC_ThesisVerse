@@ -2,18 +2,100 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+const connectDB = require('./config/db');
+const { notFound, errorHandler } = require('./middleware/errorHandler');
+
+// Routes
+const authRoutes = require('./routes/authRoutes');
+const supervisorRoutes = require('./routes/supervisorRoutes');
+const requestRoutes = require('./routes/requestRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+// CORS Configuration
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173',
+  process.env.CLIENT_URL
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        process.env.NODE_ENV !== 'production'
+      ) {
+        return callback(null, true);
+      }
+
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With'
+    ]
+  })
+);
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Base Route
+// Root Route
 app.get('/', (req, res) => {
-  res.send('IIUC ThesisVerse Server is Running...');
+  res.json({
+    status: 'online',
+    app: 'IIUC ThesisVerse API Server',
+    version: '1.0.0',
+    timestamp: new Date().toISOString()
+  });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Health Check
+app.get('/api/health', (req, res) => {
+  res.json({
+    ok: true,
+    status: 'healthy',
+    timestamp: new Date().toISOString()
+  });
 });
+
+//  API
+app.use('/api/auth', authRoutes);
+app.use('/api/supervisors', supervisorRoutes);
+app.use('/api/requests', requestRoutes);
+app.use('/api/notifications', notificationRoutes);
+
+// Error Handling
+app.use(notFound);
+app.use(errorHandler);
+
+// Connect to Database and Start Server
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    app.listen(PORT, () => {
+      console.log(`[IIUC ThesisVerse] Server is running on port ${PORT}`);
+      console.log(`[IIUC ThesisVerse] API base: http://localhost:${PORT}/api`);
+      console.log(`[IIUC ThesisVerse] Auth API: http://localhost:${PORT}/api/auth`);
+    });
+  } catch (error) {
+    console.error('[IIUC ThesisVerse] Failed to start:', error.message);
+    process.exit(1);
+  }
+};
+
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = app;
